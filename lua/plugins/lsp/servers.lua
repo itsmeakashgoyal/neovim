@@ -47,7 +47,24 @@ return {
   },
 
   zls = {},
-  clangd = {},
+  clangd = {
+    filetypes = {"c", "cpp", "hpp", "h", "objc", "objcpp", "cuda", "proto"},
+    root_dir = require("lspconfig").util.root_pattern(
+        ".clangd",
+        ".clang-tidy",
+        ".clang-format",
+        "compile_commands.json",
+        "compile_flags.txt",
+        "configure.ac",
+        ".git"
+    ),
+    settings = {
+        ["clangd"] = {
+            ["compilationDatabasePath"] = "build",
+            ["fallbackFlags"] = {"-std=c++17"}
+        }
+    },
+  },
   marksman = {},
   -- "markdownlint-cli2", "markdown-toc"
 }

@@ -54,8 +54,8 @@ vim.keymap.set("n", "=", ":resize +5<CR>")
 vim.keymap.set("n", "-", ":resize -5<CR>")
 
 -- Map enter to ciw in normal mode
-vim.keymap.set("n", "<CR>", "ciw", opts)
-vim.keymap.set("n", "<BS>", "ci", opts)
+-- vim.keymap.set("n", "<CR>", "ciw", opts)
+-- vim.keymap.set("n", "<BS>", "ci", opts)
 
 vim.keymap.set("n", "n", "nzzv", opts)
 vim.keymap.set("n", "N", "Nzzv", opts)
@@ -94,3 +94,9 @@ vim.keymap.set("n", "<Esc>", ":nohlsearch<CR>", opts)
 
 -- ctrl + x to cut full line
 vim.keymap.set("n", "<C-x>", "dd", opts)
+
+-- Navigate in normal mode using arrow keys
+vim.api.nvim_set_keymap('n', '<Up>', 'k', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Down>', 'j', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Left>', 'h', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Right>', 'l', { noremap = true, silent = true })

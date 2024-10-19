@@ -154,3 +154,54 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = goimport_sync_grp,
 })
 
+local indentSettings =
+    vim.api.nvim_create_augroup(
+    "IndentSettings",
+    {
+        clear = true
+    }
+)
+
+vim.api.nvim_create_user_command(
+    "Pretty",
+    "Prettier",
+    {
+        bang = true
+    }
+)
+
+vim.api.nvim_create_autocmd(
+    "FileType",
+    {
+        pattern = {"c", "cpp"},
+        command = "setlocal expandtab shiftwidth=2 softtabstop=2 cindent",
+        group = indentSettings
+    }
+)
+
+vim.api.nvim_create_autocmd(
+    "FileType",
+    {
+        pattern = {"python"},
+        command = "setlocal expandtab shiftwidth=4 softtabstop=4 autoindent",
+        group = indentSettings
+    }
+)
+
+function StyluaFormat()
+  local current_dir = vim.fn.getcwd()
+  local file_dir = vim.fn.fnamemodify(vim.fn.expand "%:p", ":h")
+  vim.cmd("cd " .. file_dir)
+  vim.cmd("silent! !stylua --search-parent-directories " .. vim.fn.expand "%:p")
+  vim.cmd("cd " .. current_dir)
+end
+vim.api.nvim_create_autocmd(
+  "BufWritePost",
+  {
+      pattern = "*.lua",
+      callback = function()
+          StyluaFormat()
+      end,
+      desc = "Auto-format Lua files with Stylua"
+  }
+)
